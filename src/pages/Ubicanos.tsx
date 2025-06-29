@@ -139,9 +139,23 @@ const Ubicanos = () => {
     <div className="min-h-screen bg-white">
       <Header activeSection="ubicanos" />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-gray-50 to-gray-100 py-12 sm:py-16 lg:py-20 pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Hero Section with Background Image */}
+      <section className="relative py-12 sm:py-16 lg:py-20 pt-20 overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/mar.jpg)',
+            backgroundPosition: 'center center',
+            backgroundSize: 'cover'
+          }}
+        ></div>
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/95 to-gray-100/95"></div>
+        
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Nuestras <span className="text-[#cf1dc9]">Ubicaciones</span>
