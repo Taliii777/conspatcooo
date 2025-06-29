@@ -21,6 +21,10 @@ import {
 	Syringe,
 	User,
 	HelpCircle,
+	Building2,
+	Activity,
+	Stethoscope,
+	FlaskConical,
 } from 'lucide-react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -31,6 +35,8 @@ import TiltedCard from '../components/TiltedCard'
 import FadeContent from '../components/FadeContent'
 import BlurText from '../components/BlurText'
 import SpotlightCard from '../components/SpotlightCard'
+import MedicalParticles from '../components/MedicalParticles'
+import AnimatedStatCard from '../components/AnimatedStatCard'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText as GsapSplitText } from 'gsap/SplitText'
@@ -179,6 +185,30 @@ const Home = () => {
 		},
 	]
 
+	// Datos de estadísticas con iconos
+	const statsData = [
+		{
+			icon: <Building2 className="w-8 h-8" />,
+			value: 250,
+			label: 'Clínicas trabajadas'
+		},
+		{
+			icon: <Stethoscope className="w-8 h-8" />,
+			value: 768,
+			label: 'Doctores satisfechos'
+		},
+		{
+			icon: <Users className="w-8 h-8" />,
+			value: 62079,
+			label: 'Clientes atendidos'
+		},
+		{
+			icon: <Award className="w-8 h-8" />,
+			value: 24,
+			label: 'Años de experiencia'
+		}
+	]
+
 	const handleScroll = () => {
 		const sections = document.querySelectorAll('section[id]')
 		const scrollPosition = window.scrollY + 100 // Offset más pequeño
@@ -313,7 +343,10 @@ const Home = () => {
 	}, []);
 
 	return (
-		<div className="min-h-screen bg-white">
+		<div className="min-h-screen bg-white relative">
+			{/* Partículas médicas flotantes */}
+			<MedicalParticles />
+			
 			<Header activeSection={activeSection} />
 
 			{/* Hero Section */}
@@ -407,58 +440,15 @@ const Home = () => {
 					{/* Content */}
 					<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 						<div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center text-white">
-							<div className="transform hover:scale-105 transition-transform duration-300">
-								<CountUp
-									from={0}
-									to={250}
-									separator=","
-									direction="up"
-									duration={1}
-									className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2"
-									onStart={() => {}}
-									onEnd={() => {}}
+							{statsData.map((stat, index) => (
+								<AnimatedStatCard
+									key={index}
+									icon={stat.icon}
+									value={stat.value}
+									label={stat.label}
+									delay={index * 200}
 								/>
-								<div className="text-white/90 text-sm sm:text-base">Clínicas trabajadas</div>
-							</div>
-							<div className="transform hover:scale-105 transition-transform duration-300">
-								<CountUp
-									from={0}
-									to={768}
-									separator=","
-									direction="up"
-									duration={1}
-									className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2"
-									onStart={() => {}}
-									onEnd={() => {}}
-								/>
-								<div className="text-white/90 text-sm sm:text-base">Doctores satisfechos</div>
-							</div>
-							<div className="transform hover:scale-105 transition-transform duration-300">
-								<CountUp
-									from={0}
-									to={62079}
-									separator=","
-									direction="up"
-									duration={1}
-									className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2"
-									onStart={() => {}}
-									onEnd={() => {}}
-								/>
-								<div className="text-white/90 text-sm sm:text-base">Clientes atendidos</div>
-							</div>
-							<div className="transform hover:scale-105 transition-transform duration-300">
-								<CountUp
-									from={0}
-									to={24}
-									separator=","
-									direction="up"
-									duration={1}
-									className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2"
-									onStart={() => {}}
-									onEnd={() => {}}
-								/>
-								<div className="text-white/90 text-sm sm:text-base">Años de experiencia</div>
-							</div>
+							))}
 						</div>
 					</div>
 				</div>
