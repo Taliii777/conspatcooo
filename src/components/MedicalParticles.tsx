@@ -20,7 +20,7 @@ const MedicalParticles: React.FC = () => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const particleCount = 20; // Aumentamos para mejor cobertura
+    const particleCount = 25; // Aumentamos para mejor cobertura
 
     // Limpiar partículas existentes
     container.innerHTML = '';
@@ -36,21 +36,19 @@ const MedicalParticles: React.FC = () => {
         body.offsetHeight,
         html.clientHeight,
         html.scrollHeight,
-        html.offsetHeight
+        html.offsetHeight,
+        window.innerHeight
       );
     };
 
-    // Función para actualizar el tamaño del contenedor
-    const updateContainerSize = () => {
-      const documentHeight = getDocumentHeight();
-      container.style.height = `${documentHeight}px`;
-      container.style.minHeight = `${documentHeight}px`;
+    // Función para obtener el scroll actual
+    const getScrollTop = () => {
+      return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     };
 
     // Crear partículas iniciales
     const createParticles = () => {
       const documentHeight = getDocumentHeight();
-      updateContainerSize();
       
       for (let i = 0; i < particleCount; i++) {
         const particle: Particle = {
@@ -108,6 +106,8 @@ const MedicalParticles: React.FC = () => {
     // Animación de las partículas
     const animate = () => {
       const documentHeight = getDocumentHeight();
+      const scrollTop = getScrollTop();
+      const viewportHeight = window.innerHeight;
       
       particlesRef.current.forEach((particle, index) => {
         if (!particle.element) return;
@@ -133,11 +133,21 @@ const MedicalParticles: React.FC = () => {
         particle.element.style.left = `${particle.x}px`;
         particle.element.style.top = `${particle.y}px`;
         
-        // Animación de opacidad sutil (efecto respiración)
-        const baseOpacity = particle.opacity;
-        const breathingEffect = Math.sin(time * 2 + particle.oscillationOffset + index * 0.3) * 0.1;
-        const newOpacity = baseOpacity + breathingEffect;
-        particle.element.style.opacity = Math.max(0.05, Math.min(0.35, newOpacity)).toString();
+        // Calcular visibilidad basada en el viewport actual
+        const particleScreenY = particle.y - scrollTop;
+        const isInViewport = particleScreenY >= -100 && particleScreenY <= viewportHeight + 100;
+        
+        // Animación de opacidad sutil (efecto respiración) solo si está en viewport
+        if (isInViewport) {
+          const baseOpacity = particle.opacity;
+          const breathingEffect = Math.sin(time * 2 + particle.oscillationOffset + index * 0.3) * 0.1;
+          const newOpacity = baseOpacity + breathingEffect;
+          particle.element.style.opacity = Math.max(0.05, Math.min(0.35, newOpacity)).toString();
+          particle.element.style.display = 'block';
+        } else {
+          // Ocultar partículas que están muy lejos del viewport para optimizar
+          particle.element.style.display = 'none';
+        }
       });
       
       animationRef.current = requestAnimationFrame(animate);
@@ -149,7 +159,10 @@ const MedicalParticles: React.FC = () => {
     // Manejar redimensionamiento y cambios en el contenido
     const handleResize = () => {
       const documentHeight = getDocumentHeight();
-      updateContainerSize();
+      
+      // Actualizar el tamaño del contenedor
+      container.style.height = `${documentHeight}px`;
+      container.style.minHeight = `${documentHeight}px`;
       
       particlesRef.current.forEach(particle => {
         if (particle.x > window.innerWidth) {
@@ -163,7 +176,7 @@ const MedicalParticles: React.FC = () => {
 
     // Observer para detectar cambios en el tamaño del documento
     const resizeObserver = new ResizeObserver(() => {
-      setTimeout(handleResize, 100); // Pequeño delay para asegurar que el DOM se haya actualizado
+      setTimeout(handleResize, 100);
     });
     
     resizeObserver.observe(document.body);
@@ -181,6 +194,9 @@ const MedicalParticles: React.FC = () => {
         handleResize();
       }
     }, 2000);
+
+    // Inicializar el tamaño del contenedor
+    handleResize();
 
     // Cleanup
     return () => {
@@ -201,14 +217,15 @@ const MedicalParticles: React.FC = () => {
   return (
     <div 
       ref={containerRef} 
-      className="fixed inset-0 pointer-events-none overflow-hidden w-full"
+      className="absolute inset-0 pointer-events-none overflow-hidden w-full"
       style={{ 
         zIndex: 1,
         top: 0,
         left: 0,
         right: 0,
-        position: 'fixed',
-        minHeight: '100vh'
+        position: 'absolute',
+        minHeight: '100vh',
+        height: '100%'
       }}
       aria-hidden="true"
     />
