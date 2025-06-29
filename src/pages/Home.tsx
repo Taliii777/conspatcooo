@@ -389,9 +389,23 @@ const Home = () => {
 					</div>
 				</div>
 
-				{/* Stats Section */}
-				<div className="mt-12 sm:mt-16 lg:mt-20 bg-gradient-to-r from-[#cf1dc9] to-[#ae29ba] py-12 sm:py-16">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				{/* Stats Section with Background Image */}
+				<div className="mt-12 sm:mt-16 lg:mt-20 relative py-12 sm:py-16 overflow-hidden">
+					{/* Background Image */}
+					<div 
+						className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+						style={{
+							backgroundImage: 'url(/mano.jpg)',
+							backgroundPosition: 'center center',
+							backgroundSize: 'cover'
+						}}
+					></div>
+					
+					{/* Gradient Overlay */}
+					<div className="absolute inset-0 bg-gradient-to-r from-[#cf1dc9] to-[#ae29ba] opacity-90"></div>
+					
+					{/* Content */}
+					<div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 						<div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center text-white">
 							<div className="transform hover:scale-105 transition-transform duration-300">
 								<CountUp
