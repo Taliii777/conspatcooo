@@ -152,17 +152,14 @@ const Ubicanos = () => {
           }}
         ></div>
         
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/90 to-gray-100/90 backdrop-blur-[1px]"></div>
-        
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Nuestras <span className="text-[#cf1dc9]">Ubicaciones</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">
+              Nuestras <span className="text-white">Ubicaciones</span>
             </h1>
-            <div className="w-24 h-1 bg-[#cf1dc9] mx-auto mb-6"></div>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <div className="w-24 h-1 bg-white mx-auto mb-6"></div>
+            <p className="text-lg sm:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
               Encuentra la sede de Laboratorios Conspat más cercana a ti. 
               Contamos con instalaciones modernas y personal especializado para brindarte el mejor servicio.
             </p>
