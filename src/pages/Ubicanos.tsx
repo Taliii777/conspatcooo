@@ -140,7 +140,7 @@ const Ubicanos = () => {
       <Header activeSection="ubicanos" />
 
       {/* Hero Section with Background Image */}
-      <section className="relative py-12 sm:py-16 lg:py-20 pt-20 overflow-hidden min-h-[400px]">
+      <section className="relative overflow-hidden min-h-[500px] flex items-center justify-center">
         {/* Background Image */}
         <div 
           className="absolute inset-0 w-full h-full"
@@ -152,18 +152,19 @@ const Ubicanos = () => {
           }}
         ></div>
         
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">
-              Nuestras <span className="text-white">Ubicaciones</span>
-            </h1>
-            <div className="w-24 h-1 bg-white mx-auto mb-6"></div>
-            <p className="text-lg sm:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-              Encuentra la sede de Laboratorios Conspat más cercana a ti. 
-              Contamos con instalaciones modernas y personal especializado para brindarte el mejor servicio.
-            </p>
-          </div>
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        
+        {/* Content - Centered */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 drop-shadow-2xl">
+            Nuestras <span className="text-white">Ubicaciones</span>
+          </h1>
+          <div className="w-24 h-1 bg-white mx-auto mb-6 shadow-lg"></div>
+          <p className="text-lg sm:text-xl lg:text-2xl text-white max-w-4xl mx-auto leading-relaxed drop-shadow-lg">
+            Encuentra la sede de Laboratorios Conspat más cercana a ti. 
+            Contamos con instalaciones modernas y personal especializado para brindarte el mejor servicio.
+          </p>
         </div>
       </section>
 
