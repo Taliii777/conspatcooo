@@ -20,26 +20,11 @@ const MedicalParticles: React.FC = () => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
-    const particleCount = 25; // Aumentamos para mejor cobertura
+    const particleCount = 25;
 
     // Limpiar partículas existentes
     container.innerHTML = '';
     particlesRef.current = [];
-
-    // Función para obtener la altura total del documento
-    const getDocumentHeight = () => {
-      const body = document.body;
-      const html = document.documentElement;
-      
-      return Math.max(
-        body.scrollHeight,
-        body.offsetHeight,
-        html.clientHeight,
-        html.scrollHeight,
-        html.offsetHeight,
-        window.innerHeight
-      );
-    };
 
     // Función para obtener el scroll actual
     const getScrollTop = () => {
@@ -48,12 +33,12 @@ const MedicalParticles: React.FC = () => {
 
     // Crear partículas iniciales
     const createParticles = () => {
-      const documentHeight = getDocumentHeight();
+      const viewportHeight = window.innerHeight;
       
       for (let i = 0; i < particleCount; i++) {
         const particle: Particle = {
           x: Math.random() * window.innerWidth,
-          y: Math.random() * documentHeight,
+          y: Math.random() * viewportHeight * 3, // Distribuir en 3 pantallas de altura
           size: Math.random() * 16 + 12,
           speed: Math.random() * 0.8 + 0.3,
           opacity: Math.random() * 0.25 + 0.1,
@@ -65,7 +50,7 @@ const MedicalParticles: React.FC = () => {
         const element = document.createElement('div');
         element.className = `medical-particle particle-${particle.type}`;
         element.style.cssText = `
-          position: absolute;
+          position: fixed;
           pointer-events: none;
           z-index: 1;
           font-size: ${particle.size}px;
@@ -95,7 +80,7 @@ const MedicalParticles: React.FC = () => {
         }
         
         particle.element = element;
-        container.appendChild(element);
+        document.body.appendChild(element); // Agregar al body en lugar del contenedor
         particlesRef.current.push(particle);
       }
     };
@@ -105,7 +90,6 @@ const MedicalParticles: React.FC = () => {
 
     // Animación de las partículas
     const animate = () => {
-      const documentHeight = getDocumentHeight();
       const scrollTop = getScrollTop();
       const viewportHeight = window.innerHeight;
       
@@ -121,7 +105,7 @@ const MedicalParticles: React.FC = () => {
         
         // Reiniciar partícula cuando sale de la pantalla por arriba
         if (particle.y < -100) {
-          particle.y = documentHeight + 100;
+          particle.y = viewportHeight + 100;
           particle.x = Math.random() * window.innerWidth;
         }
         
@@ -129,13 +113,12 @@ const MedicalParticles: React.FC = () => {
         if (particle.x < -100) particle.x = window.innerWidth + 100;
         if (particle.x > window.innerWidth + 100) particle.x = -100;
         
-        // Aplicar posición
+        // Aplicar posición (position fixed se mantiene relativo al viewport)
         particle.element.style.left = `${particle.x}px`;
         particle.element.style.top = `${particle.y}px`;
         
-        // Calcular visibilidad basada en el viewport actual
-        const particleScreenY = particle.y - scrollTop;
-        const isInViewport = particleScreenY >= -100 && particleScreenY <= viewportHeight + 100;
+        // Verificar si está en el viewport
+        const isInViewport = particle.y >= -100 && particle.y <= viewportHeight + 100;
         
         // Animación de opacidad sutil (efecto respiración) solo si está en viewport
         if (isInViewport) {
@@ -145,7 +128,7 @@ const MedicalParticles: React.FC = () => {
           particle.element.style.opacity = Math.max(0.05, Math.min(0.35, newOpacity)).toString();
           particle.element.style.display = 'block';
         } else {
-          // Ocultar partículas que están muy lejos del viewport para optimizar
+          // Ocultar partículas que están fuera del viewport
           particle.element.style.display = 'none';
         }
       });
@@ -156,47 +139,16 @@ const MedicalParticles: React.FC = () => {
     // Iniciar animación
     animate();
 
-    // Manejar redimensionamiento y cambios en el contenido
+    // Manejar redimensionamiento
     const handleResize = () => {
-      const documentHeight = getDocumentHeight();
-      
-      // Actualizar el tamaño del contenedor
-      container.style.height = `${documentHeight}px`;
-      container.style.minHeight = `${documentHeight}px`;
-      
       particlesRef.current.forEach(particle => {
         if (particle.x > window.innerWidth) {
           particle.x = Math.random() * window.innerWidth;
         }
-        if (particle.y > documentHeight + 200) {
-          particle.y = Math.random() * documentHeight;
-        }
       });
     };
 
-    // Observer para detectar cambios en el tamaño del documento
-    const resizeObserver = new ResizeObserver(() => {
-      setTimeout(handleResize, 100);
-    });
-    
-    resizeObserver.observe(document.body);
-    resizeObserver.observe(document.documentElement);
-
     window.addEventListener('resize', handleResize);
-    window.addEventListener('load', handleResize);
-
-    // Verificar periódicamente si el documento cambió de tamaño
-    const checkInterval = setInterval(() => {
-      const currentHeight = getDocumentHeight();
-      const containerHeight = parseInt(container.style.height) || 0;
-      
-      if (Math.abs(currentHeight - containerHeight) > 50) {
-        handleResize();
-      }
-    }, 2000);
-
-    // Inicializar el tamaño del contenedor
-    handleResize();
 
     // Cleanup
     return () => {
@@ -204,12 +156,13 @@ const MedicalParticles: React.FC = () => {
         cancelAnimationFrame(animationRef.current);
       }
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('load', handleResize);
-      resizeObserver.disconnect();
-      clearInterval(checkInterval);
-      if (container) {
-        container.innerHTML = '';
-      }
+      
+      // Remover partículas del DOM
+      particlesRef.current.forEach(particle => {
+        if (particle.element && particle.element.parentNode) {
+          particle.element.parentNode.removeChild(particle.element);
+        }
+      });
       particlesRef.current = [];
     };
   }, []);
@@ -217,15 +170,15 @@ const MedicalParticles: React.FC = () => {
   return (
     <div 
       ref={containerRef} 
-      className="absolute inset-0 pointer-events-none overflow-hidden w-full"
+      className="pointer-events-none"
       style={{ 
-        zIndex: 1,
+        position: 'fixed',
         top: 0,
         left: 0,
-        right: 0,
-        position: 'absolute',
-        minHeight: '100vh',
-        height: '100%'
+        width: '100%',
+        height: '100%',
+        zIndex: 1,
+        overflow: 'hidden'
       }}
       aria-hidden="true"
     />

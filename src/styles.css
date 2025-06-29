@@ -60,4 +60,18 @@ body {
 /* Ajustar scroll suave para compensar el header fijo */
 html {
   scroll-padding-top: 80px;
-} 
+}
+
+/* Asegurar que no haya scroll doble */
+html, body {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Prevenir que los elementos fixed causen scroll doble */
+.medical-particle {
+  position: fixed !important;
+  pointer-events: none !important;
+}
