@@ -140,19 +140,20 @@ const Ubicanos = () => {
       <Header activeSection="ubicanos" />
 
       {/* Hero Section with Background Image */}
-      <section className="relative py-12 sm:py-16 lg:py-20 pt-20 overflow-hidden">
+      <section className="relative py-12 sm:py-16 lg:py-20 pt-20 overflow-hidden min-h-[400px]">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 w-full h-full"
           style={{
             backgroundImage: 'url(/mar.jpg)',
             backgroundPosition: 'center center',
-            backgroundSize: 'cover'
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat'
           }}
         ></div>
         
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/95 to-gray-100/95"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/90 to-gray-100/90 backdrop-blur-[1px]"></div>
         
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
