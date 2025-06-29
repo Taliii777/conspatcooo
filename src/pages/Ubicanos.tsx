@@ -139,8 +139,8 @@ const Ubicanos = () => {
     <div className="min-h-screen bg-white">
       <Header activeSection="ubicanos" />
 
-      {/* Hero Section with Background Image */}
-      <section className="relative overflow-hidden min-h-[500px] flex items-center justify-center">
+      {/* Hero Section with Background Image - Reduced Height */}
+      <section className="relative overflow-hidden min-h-[350px] flex items-center justify-center pt-16">
         {/* Background Image */}
         <div 
           className="absolute inset-0 w-full h-full"
@@ -156,12 +156,12 @@ const Ubicanos = () => {
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         
         {/* Content - Centered */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 drop-shadow-2xl">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-8">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-2xl">
             Nuestras <span className="text-white">Ubicaciones</span>
           </h1>
-          <div className="w-24 h-1 bg-white mx-auto mb-6 shadow-lg"></div>
-          <p className="text-lg sm:text-xl lg:text-2xl text-white max-w-4xl mx-auto leading-relaxed drop-shadow-lg">
+          <div className="w-24 h-1 bg-white mx-auto mb-4 shadow-lg"></div>
+          <p className="text-lg sm:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
             Encuentra la sede de Laboratorios Conspat más cercana a ti. 
             Contamos con instalaciones modernas y personal especializado para brindarte el mejor servicio.
           </p>
