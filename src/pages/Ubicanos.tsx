@@ -4,6 +4,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SpotlightCard from '../components/SpotlightCard';
+import MedicalParticles from '../components/MedicalParticles';
 
 const Ubicanos = () => {
   const locations = [
@@ -136,7 +137,10 @@ const Ubicanos = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white relative">
+      {/* Partículas médicas flotantes */}
+      <MedicalParticles />
+      
       <Header activeSection="ubicanos" />
 
       {/* Hero Section with Background Image - Reduced Height */}
@@ -169,7 +173,7 @@ const Ubicanos = () => {
       </section>
 
       {/* Locations Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-12 lg:space-y-16">
             {locations.map((location, index) => (
@@ -272,7 +276,7 @@ const Ubicanos = () => {
       </section>
 
       {/* Contact CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-gray-100 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-[#cf1dc9] to-[#ae29ba] rounded-3xl p-6 sm:p-8 lg:p-12 text-center text-white">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
