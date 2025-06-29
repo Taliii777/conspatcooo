@@ -1,0 +1,8 @@
+/* Mantener solo la animación de escala al pasar el ratón */
+.hover-effect {
+    transition: transform 0.3s ease;
+}
+
+.hover-effect:hover {
+    transform: scale(1.1);
+}
